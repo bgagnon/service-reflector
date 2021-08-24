@@ -1,5 +1,6 @@
 .cache/
 .container*
+.idea/
 .manifest*
 .push*
 bin/
