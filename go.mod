@@ -17,7 +17,7 @@ require (
 	github.com/prometheus/procfs v0.0.3 // indirect
 	github.com/spf13/pflag v1.0.3
 	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
-	golang.org/x/lint v0.0.0-20190409202823-959b441ac422
+	golang.org/x/lint v0.0.0-20190409202823-959b441ac422 // indirect
 	golang.org/x/net v0.0.0-20190628185345-da137c7871d7 // indirect
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45 // indirect
 	golang.org/x/sys v0.0.0-20190626221950-04f50cda93cb // indirect
@@ -27,8 +27,8 @@ require (
 	k8s.io/apimachinery v0.0.0-20190719140911-bfcf53abc9f8
 	k8s.io/apiserver v0.0.0-20190721103406-1e59c150c171
 	k8s.io/client-go v12.0.0+incompatible
-	k8s.io/code-generator v0.0.0-20190717022600-77f3a1fe56bb
-	k8s.io/kube-openapi v0.0.0-20190709113604-33be087ad058
+	k8s.io/code-generator v0.0.0-20190717022600-77f3a1fe56bb // indirect
+	k8s.io/kube-openapi v0.0.0-20190709113604-33be087ad058 // indirect
 )
 
 go 1.13
