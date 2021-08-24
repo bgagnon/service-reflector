@@ -337,10 +337,9 @@ func (c *Controller) sync(key string) error {
 		}
 		if c.servicesEquivalent(svc, local) {
 			level.Debug(logger).Log("msg", "Services are already equivalent", "name", name, "namespace", ns)
-			return nil
+		} else if _, err := c.client.CoreV1().Services(ns).Update(svc); err != nil {
+			return errors.Wrap(err, fmt.Sprintf("failed to update Service %s in namespace %s for API %s", name, ns, api))
 		}
-		_, err := c.client.CoreV1().Services(ns).Update(svc)
-		return errors.Wrap(err, fmt.Sprintf("failed to update Service %s in namespace %s for API %s", name, ns, api))
 	}
 	if _, err := c.client.CoreV1().Services(ns).Create(svc); err != nil {
 		return fmt.Errorf("failed to create Service %s in namespace %s for API %s: %v", name, ns, api, err)
@@ -372,7 +371,6 @@ func (c *Controller) sync(key string) error {
 		}
 		if c.endpointsEquivalent(end, local) {
 			level.Debug(logger).Log("msg", "Endpoints are already equivalent", "name", name, "namespace", ns)
-			return nil
 		}
 		_, err := c.client.CoreV1().Endpoints(ns).Update(end)
 		return errors.Wrap(err, fmt.Sprintf("failed to update Endpoints %s in namespace %s for API %s", name, ns, api))
