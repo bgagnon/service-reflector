@@ -373,11 +373,15 @@ func (c *Controller) sync(key string) error {
 		if c.endpointsEquivalent(end, local) {
 			level.Debug(logger).Log("msg", "Endpoints are already equivalent", "name", name, "namespace", ns)
 		}
-		_, err := c.client.CoreV1().Endpoints(ns).Update(end)
-		return errors.Wrap(err, fmt.Sprintf("failed to update Endpoints %s in namespace %s for API %s", name, ns, api))
+		if _, err := c.client.CoreV1().Endpoints(ns).Update(end); err != nil {
+			return errors.Wrap(err, fmt.Sprintf("failed to update Endpoints %s in namespace %s for API %s", name, ns, api))
+		}
+	} else if _, err = c.client.CoreV1().Endpoints(ns).Create(end); err != nil {
+		return errors.Wrap(err, fmt.Sprintf("failed to create Endpoints %s in namespace %s for API %s", name, ns, api))
 	}
-	_, err = c.client.CoreV1().Endpoints(ns).Create(end)
-	return errors.Wrap(err, fmt.Sprintf("failed to create Endpoints %s in namespace %s for API %s", name, ns, api))
+
+	level.Debug(logger).Log("msg", "sync loop completed", "name", name, "namespace", ns)
+	return nil
 }
 
 func (c *Controller) generate(ns, name, api string) (*v1.Service, *v1.Endpoints, *v1.Namespace, error) {
